@@ -1,0 +1,21 @@
+FROM golang:1.19rc2-alpine3.16 as golang-builder
+
+WORKDIR /go/app
+
+COPY . .
+
+RUN go mod download && \
+    go build -o ./dist/main
+
+EXPOSE 8080
+
+FROM alpine:3.16
+WORKDIR /prod/
+COPY --from=golang-builder /usr/local/go/ /usr/local/go/
+COPY --from=golang-builder /go/app/ ./
+ENV PATH="/usr/local/go/bin:${PATH}"
+CMD [ "dist/main" ]
+
+
+
+

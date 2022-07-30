@@ -1,0 +1,20 @@
+{
+  "name": "web_service",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "uuid": "^8.3.2",
+    "vue": "^3.2.37"
+  },
+  "devDependencies": {
+    "install": "^0.13.0",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0"
+  }
+}
