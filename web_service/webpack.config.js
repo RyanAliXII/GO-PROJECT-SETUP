@@ -1,10 +1,10 @@
 const path  = require('path')
 const Webpack = require('webpack')
 module.exports = {
-    mode: "production",
+    mode: "development",
     watch:true,
     entry: {
-        home:[
+        home_scripts:[
             path.resolve(__dirname,'web/static/js/home/homepage.js')
         ],
         product:[

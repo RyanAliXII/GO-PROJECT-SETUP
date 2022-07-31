@@ -1,7 +1,6 @@
 FROM node:18-alpine3.16 as node-builder
 
 
-
 FROM golang:1.19rc2-alpine3.16
 
 WORKDIR /go/app
@@ -14,11 +13,10 @@ COPY --from=node-builder /usr/local/lib /usr/local/lib
 COPY --from=node-builder /usr/local/include /usr/local/include
 COPY --from=node-builder /usr/local/bin /usr/local/bin
 
-RUN npm install
-
 RUN go mod download && \
     go install github.com/cosmtrek/air@latest &&\
-    go build -o ./dist/main
+    go build -o ./dist/main &&\
+    npm install
 
 EXPOSE 8080
 
