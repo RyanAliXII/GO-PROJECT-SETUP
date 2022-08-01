@@ -1,9 +1,11 @@
 package repository
 
-import "database/sql"
+import (
+	"github.com/jmoiron/sqlx"
+)
 
 type chatRepository struct {
-	db *sql.DB
+	db *sqlx.DB
 }
 
 type ChatRepository interface {

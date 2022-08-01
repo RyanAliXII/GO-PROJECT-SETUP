@@ -1,12 +1,13 @@
 package repository
 
 import (
-	"database/sql"
 	"ryanali12/web_service/models"
+
+	"github.com/jmoiron/sqlx"
 )
 
 type userRepository struct {
-	db *sql.DB
+	db *sqlx.DB
 }
 
 func (repo userRepository) CreateUser(user models.User) {

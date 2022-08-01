@@ -1,7 +1,6 @@
 package main
 
 import (
-	"database/sql"
 	"fmt"
 	"io/fs"
 	"net/http"
@@ -12,6 +11,7 @@ import (
 	"ryanali12/web_service/web"
 
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/jmoiron/sqlx"
 
 	"github.com/gin-gonic/gin"
 
@@ -21,8 +21,7 @@ import (
 func main() {
 	r := gin.Default()
 	godotenv.Load(".env")
-
-	var connection *sql.DB = InitDBConnection()
+	var connection *sqlx.DB = InitDBConnection()
 	db.InitDb(connection)
 	var repositories repository.Repositories = InitRepositories(connection)
 	r.LoadHTMLFiles(getHTMLFiles()...)
@@ -36,7 +35,7 @@ func main() {
 	r.Run()
 }
 
-func InitDBConnection() *sql.DB {
+func InitDBConnection() *sqlx.DB {
 
 	DB_DRIVER := os.Getenv("DB_DRIVER")
 	DB_USERNAME := os.Getenv("DB_USERNAME")
@@ -46,14 +45,14 @@ func InitDBConnection() *sql.DB {
 
 	CONNECTION_STRING := fmt.Sprintf("%s:%s@tcp(%s:%s)/?parseTime=true", DB_USERNAME, DB_PASSWORD, DB_HOST, DB_PORT)
 	fmt.Println(CONNECTION_STRING)
-	connection, connectErr := sql.Open(DB_DRIVER, CONNECTION_STRING)
+	connection, connectErr := sqlx.Open(DB_DRIVER, CONNECTION_STRING)
 	if connectErr != nil {
 		panic(connectErr.Error())
 	}
 	return connection
 }
 
-func InitRepositories(db *sql.DB) repository.Repositories {
+func InitRepositories(db *sqlx.DB) repository.Repositories {
 
 	return repository.Repositories{
 		ChatRepository: repository.NewChatRepository(db),

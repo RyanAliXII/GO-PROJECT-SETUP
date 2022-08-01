@@ -1,18 +1,20 @@
 package repository
 
-import "database/sql"
+import (
+	"github.com/jmoiron/sqlx"
+)
 
 type Repositories struct {
 	ChatRepository ChatRepository
 	UserRepository UserRepository
 }
 
-func NewUserRepository(db *sql.DB) UserRepository {
+func NewUserRepository(db *sqlx.DB) UserRepository {
 	return userRepository{
 		db: db,
 	}
 }
-func NewChatRepository(db *sql.DB) ChatRepository {
+func NewChatRepository(db *sqlx.DB) ChatRepository {
 	return chatRepository{
 		db: db,
 	}

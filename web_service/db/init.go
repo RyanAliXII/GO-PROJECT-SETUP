@@ -1,21 +1,23 @@
 package db
 
 import (
-	"database/sql"
 	"fmt"
 	"os"
+
+	"github.com/jmoiron/sqlx"
 )
 
-func InitDb(connection *sql.DB) {
-	//ALWAYS ADD IF NOT EXISTS
-	//CREATE YOUR OWN CUSTOM SCRIPT HERE TO CREATE DATABASE AND TABLE ON APPLICATION RUN
+//ADD IF NOT EXISTS CLAUSE IF NEEDED
+//CREATE YOUR OWN CUSTOM SCRIPT HERE TO CREATE DATABASE AND TABLE ON APPLICATION RUN
+func InitDb(connection *sqlx.DB) {
+
 	createAppDb(connection)
 }
 
-func createAppDb(connection *sql.DB) {
+func createAppDb(connection *sqlx.DB) {
 	var DB_NAME string = os.Getenv("DB_NAME")
-	connection.Exec(fmt.Sprintf("CREATE DATABASE IF NOT EXISTS %s", DB_NAME))
-	connection.Exec(fmt.Sprintf("USE %s", DB_NAME))
+	connection.MustExec(fmt.Sprintf("CREATE DATABASE IF NOT EXISTS %s", DB_NAME))
+	connection.MustExec(fmt.Sprintf("USE %s", DB_NAME))
 
 	CREATE_USER_TABLE_QUERY := `
 			CREATE TABLE IF NOT EXISTS users (
@@ -26,6 +28,6 @@ func createAppDb(connection *sql.DB) {
 			password VARCHAR(100) NOT NULL,
 			PRIMARY KEY (id));
 	`
-	connection.Exec(CREATE_USER_TABLE_QUERY)
+	connection.MustExec(CREATE_USER_TABLE_QUERY)
 
 }
