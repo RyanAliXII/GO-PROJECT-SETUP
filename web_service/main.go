@@ -3,8 +3,10 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	"io/fs"
 	"net/http"
 	"os"
+	"path/filepath"
 	"ryanali12/web_service/db"
 	"ryanali12/web_service/repository"
 	"ryanali12/web_service/web"
@@ -17,14 +19,14 @@ import (
 )
 
 func main() {
+	getHTMLFiles()
 	r := gin.Default()
 	godotenv.Load(".env")
-	// DB_NAME := os.Getenv("DB_NAME")
-	var connection *sql.DB = InitDBConnection()
-	db.CreateDBandTables(connection, "chat")
-	var repositories repository.Repositories = InitRepositories(connection)
 
-	r.LoadHTMLGlob("web/pages/**/*")
+	var connection *sql.DB = InitDBConnection()
+	db.CreateChatAppDBandTables(connection)
+	var repositories repository.Repositories = InitRepositories(connection)
+	r.LoadHTMLFiles(getHTMLFiles()...)
 	r.Static("/static", "./web/static")
 	r.GET("/", func(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, gin.H{
@@ -58,4 +60,19 @@ func InitRepositories(db *sql.DB) repository.Repositories {
 		ChatRepository: repository.NewChatRepository(db),
 		UserRepository: repository.NewUserRepository(db),
 	}
+}
+func getHTMLFiles() []string {
+	templateList := []string{}
+	filepath.Walk("./web/templates", func(path string, info fs.FileInfo, err error) error {
+
+		if !info.IsDir() {
+			fileExtension := filepath.Ext(path)
+			if fileExtension == ".html" {
+				templateList = append(templateList, path)
+			}
+
+		}
+		return nil
+	})
+	return templateList
 }
