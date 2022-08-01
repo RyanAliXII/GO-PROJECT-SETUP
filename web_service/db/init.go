@@ -6,9 +6,13 @@ import (
 	"os"
 )
 
-func CreateChatAppDBandTables(connection *sql.DB) {
+func InitDb(connection *sql.DB) {
 	//ALWAYS ADD IF NOT EXISTS
 	//CREATE YOUR OWN CUSTOM SCRIPT HERE TO CREATE DATABASE AND TABLE ON APPLICATION RUN
+	createAppDb(connection)
+}
+
+func createAppDb(connection *sql.DB) {
 	var DB_NAME string = os.Getenv("DB_NAME")
 	connection.Exec(fmt.Sprintf("CREATE DATABASE IF NOT EXISTS %s", DB_NAME))
 	connection.Exec(fmt.Sprintf("USE %s", DB_NAME))

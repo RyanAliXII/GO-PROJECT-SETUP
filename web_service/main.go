@@ -19,12 +19,11 @@ import (
 )
 
 func main() {
-	getHTMLFiles()
 	r := gin.Default()
 	godotenv.Load(".env")
 
 	var connection *sql.DB = InitDBConnection()
-	db.CreateChatAppDBandTables(connection)
+	db.InitDb(connection)
 	var repositories repository.Repositories = InitRepositories(connection)
 	r.LoadHTMLFiles(getHTMLFiles()...)
 	r.Static("/static", "./web/static")
