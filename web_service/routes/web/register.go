@@ -2,7 +2,7 @@ package routes
 
 import (
 	"net/http"
-	"ryanali12/web_service/repository"
+	"ryanali12/web_service/app/repository"
 
 	"github.com/gin-gonic/gin"
 )

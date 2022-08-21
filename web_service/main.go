@@ -2,11 +2,11 @@ package main
 
 import (
 	"fmt"
-	"io/fs"
 	"os"
-	"path/filepath"
+
+	"ryanali12/web_service/app/pkg/loadtmpl"
+	"ryanali12/web_service/app/repository"
 	"ryanali12/web_service/db"
-	"ryanali12/web_service/repository"
 	routes "ryanali12/web_service/routes/web"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -22,8 +22,8 @@ func main() {
 	godotenv.Load(".env")
 	var connection *sqlx.DB = InitDBConnection()
 	db.InitDb(connection)
-	var repositories repository.Repositories = InitRepositories(connection)
-	r.LoadHTMLFiles(getHTMLFiles()...)
+	var repositories repository.Repositories = repository.NewRepositories(connection)
+	r.LoadHTMLFiles(loadtmpl.LoadHTMLFiles("./templates")...)
 	r.Static("/public", "./public")
 	routes.RegisterWeb(&repositories, r)
 	r.Run()
@@ -44,25 +44,4 @@ func InitDBConnection() *sqlx.DB {
 		panic(connectErr.Error())
 	}
 	return connection
-}
-
-func InitRepositories(db *sqlx.DB) repository.Repositories {
-	return repository.Repositories{
-		UserRepository: repository.NewUserRepository(db),
-	}
-}
-func getHTMLFiles() []string {
-	templateList := []string{}
-	filepath.Walk("./templates", func(path string, info fs.FileInfo, err error) error {
-
-		if !info.IsDir() {
-			fileExtension := filepath.Ext(path)
-			if fileExtension == ".html" {
-				templateList = append(templateList, path)
-			}
-
-		}
-		return nil
-	})
-	return templateList
 }
