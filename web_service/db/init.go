@@ -10,7 +10,6 @@ import (
 //ADD IF NOT EXISTS CLAUSE IF NEEDED
 //CREATE YOUR OWN CUSTOM SCRIPT HERE TO CREATE DATABASE AND TABLE ON APPLICATION RUN
 func InitDb(connection *sqlx.DB) {
-
 	createAppDb(connection)
 }
 

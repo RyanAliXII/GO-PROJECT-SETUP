@@ -3,12 +3,11 @@ package main
 import (
 	"fmt"
 	"io/fs"
-	"net/http"
 	"os"
 	"path/filepath"
 	"ryanali12/web_service/db"
 	"ryanali12/web_service/repository"
-	"ryanali12/web_service/web"
+	routes "ryanali12/web_service/routes/web"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
@@ -25,13 +24,8 @@ func main() {
 	db.InitDb(connection)
 	var repositories repository.Repositories = InitRepositories(connection)
 	r.LoadHTMLFiles(getHTMLFiles()...)
-	r.Static("/static", "./web/static")
-	r.GET("/", func(ctx *gin.Context) {
-		ctx.JSON(http.StatusOK, gin.H{
-			"message": "Welcome",
-		})
-	})
-	web.Init(r, &repositories)
+	r.Static("/public", "./public")
+	routes.RegisterWeb(&repositories, r)
 	r.Run()
 }
 
@@ -53,15 +47,13 @@ func InitDBConnection() *sqlx.DB {
 }
 
 func InitRepositories(db *sqlx.DB) repository.Repositories {
-
 	return repository.Repositories{
-		ChatRepository: repository.NewChatRepository(db),
 		UserRepository: repository.NewUserRepository(db),
 	}
 }
 func getHTMLFiles() []string {
 	templateList := []string{}
-	filepath.Walk("./web/templates", func(path string, info fs.FileInfo, err error) error {
+	filepath.Walk("./templates", func(path string, info fs.FileInfo, err error) error {
 
 		if !info.IsDir() {
 			fileExtension := filepath.Ext(path)
