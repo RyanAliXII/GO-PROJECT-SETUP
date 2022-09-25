@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,300;0,400;1,100;1,200;1,300;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/public/css/dist/tailwind_build.css">
 </head>
 <style>
     .hero{
@@ -24,12 +25,17 @@
     }
 </style>
 <body>
+    <div id="root">
     <div class="hero">
-        <h1>Hello! Boss</h1>
+        <h1>Hello Friend!</h1>
         <img src="/public/images/gin-gonic.webp" width="250"alt="gin-gonic-logo">
+        <span>Count: {% count %}</span>
+        <button @click="incrementCount()">Increment</button>
     </div>
-        
+    </div>  
 </body>
+
+<script src="/public/js/dist/index/index-page-script.js"></script>
 </html>
 
 {{end}}
