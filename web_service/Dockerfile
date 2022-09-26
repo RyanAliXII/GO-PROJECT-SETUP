@@ -15,7 +15,7 @@ COPY --from=node-builder /usr/local/bin /usr/local/bin
 
 RUN go mod download && \
     go install github.com/cosmtrek/air@latest &&\
-    go build -o ./dist/main &&\
+    go build -o ./app/cmd/main &&\
     npm install
 
 EXPOSE 8080

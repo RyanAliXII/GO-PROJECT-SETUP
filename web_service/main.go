@@ -24,7 +24,7 @@ func main() {
 	db.InitDb(connection)
 	var repositories repository.Repositories = repository.NewRepositories(connection)
 	r.LoadHTMLFiles(loadtmpl.LoadHTMLFiles("./templates")...)
-	r.Static("/public", "./public")
+	r.Static("/dist", "./dist")
 	routes.RegisterWeb(&repositories, r)
 	r.Run()
 }
