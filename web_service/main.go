@@ -23,7 +23,7 @@ func main() {
 	var connection *sqlx.DB = InitDBConnection()
 	db.InitDb(connection)
 	var repositories repository.Repositories = repository.NewRepositories(connection)
-	r.LoadHTMLFiles(loadtmpl.LoadHTMLFiles("./templates")...)
+	r.LoadHTMLFiles(loadtmpl.LoadHTMLFiles("./src/templates")...)
 	r.Static("/dist", "./dist")
 	routes.RegisterWeb(&repositories, r)
 	r.Run()

@@ -14,4 +14,5 @@ func RegisterWeb(r *repository.Repositories, router *gin.Engine) {
 	router.GET("/about", func(ctx *gin.Context) {
 		ctx.HTML(http.StatusOK, "about.html", nil)
 	})
+
 }

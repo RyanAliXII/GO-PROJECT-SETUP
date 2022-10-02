@@ -1,34 +1,29 @@
 const Webpack = require('webpack')
-const walk = require('walk');
 const path = require('path')
+const fsw = require("@nodelib/fs.walk")
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 const { VueLoaderPlugin } = require('vue-loader')
 
-const getEntries = (filesLocation) => {
+const getEntries = (filesPath) => {
+  const files = fsw.walkSync(filesPath)
   const entries = {}
-  const relativePathFilesLoc = filesLocation.replace("./", "")
-  const options = {
-    listeners: {
-      file: function (root, fileStats, next) {
-        folder = root.replace(`${filesLocation}`, "")
-        const entryKey = `${folder}/${fileStats.name}`
-        entries[entryKey] = `./${relativePathFilesLoc}${entryKey}`
-      },
-
-    },
-  };
-  walker = walk.walkSync(filesLocation, options);
-  return entries
+  files.forEach((entry)=>{
+      const isDirectory = entry.dirent.isDirectory()
+      if(!isDirectory){
+          entries[entry.path.replace(filesPath,"")] = path.resolve(__dirname, entry.path)
+      }
+  })
+    return entries
 }
-
 module.exports = {
-  mode: "production",
+  mode: "development",
   watch: true,
-  entry: getEntries("./assets/js"),
+  cache: false,
+  entry: getEntries("src/assets/js"),
   resolve: {
-    extensions: ['.vue', '.js'],
+    extensions: ['.vue', '.js','.css'],
     alias: {
-      '@components': path.resolve(__dirname, "templates/vue-components"),
+      '@components': path.resolve(__dirname, "src/templates/vue-components"),
     }
   },
   output: {
@@ -40,7 +35,11 @@ module.exports = {
       {
         test: /\.vue$/,
         loader: 'vue-loader',
-      }
+      },
+      {
+        test: /\.css$/i,
+        use: ["style-loader", "css-loader"],
+      },
     ]
   },
   plugins: [
@@ -49,7 +48,7 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns:
         [
-          { from: path.resolve(__dirname, "assets/images"), to: path.resolve(__dirname, "dist/images") }
+          { from: path.resolve(__dirname, "src/assets/images"), to: path.resolve(__dirname, "dist/images") }
         ]
     }),
   ],

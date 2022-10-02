@@ -1,19 +1,32 @@
+FROM node:18-alpine3.16 as node-builder
+
 FROM golang:1.19rc2-alpine3.16 as golang-builder
 
 WORKDIR /go/app
-
+# ENV NODE_ENV production
 COPY . .
+#copy node-js binaries
+COPY --from=node-builder /usr/lib /usr/lib
+COPY --from=node-builder /usr/local/share /usr/local/share
+COPY --from=node-builder /usr/local/lib /usr/local/lib
+COPY --from=node-builder /usr/local/include /usr/local/include
+COPY --from=node-builder /usr/local/bin /usr/local/bin
 
 RUN go mod download && \
-    go build -o ./app/cmd/main
+    go build -o ./app/cmd/main && \
+    npm install && \
+    npm run build-prod
 
 EXPOSE 8080
 
 FROM alpine:3.16
 WORKDIR /prod/
-COPY --from=golang-builder /usr/local/go/ /usr/local/go/
-COPY --from=golang-builder /go/app/ ./
-ENV PATH="/usr/local/go/bin:${PATH}"
+# COPY --from=golang-builder /usr/local/go/ /usr/local/go/
+COPY --from=golang-builder /go/app/app/cmd/main ./app/cmd/
+COPY --from=golang-builder /go/app/src/templates/ ./src/templates
+COPY --from=golang-builder /go/app/dist/ ./dist/
+COPY --from=golang-builder /go/app/.env ./
+# ENV PATH="/usr/local/go/bin:${PATH}"
 CMD [ "app/cmd/main" ]
 
 

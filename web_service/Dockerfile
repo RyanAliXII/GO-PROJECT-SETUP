@@ -17,7 +17,8 @@ RUN go mod download && \
     go install github.com/cosmtrek/air@latest &&\
     go build -o ./app/cmd/main &&\
     npm install
+    
 
 EXPOSE 8080
 
-CMD [ "air" ]
+CMD ["air"]

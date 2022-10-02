@@ -1,0 +1,43 @@
+{{define "index.html" }}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index</title>
+    <link rel="stylesheet" href="/dist/css/tailwind.css">
+</head>
+<body>
+    <div id="root">
+    <div class="flex w-full h-screen items-center justify-center flex-col">
+        <h1>Hello Friend!</h1>
+        <img src="/dist/images/gin-gonic.webp" width="250"alt="gin-gonic-logo">
+        <button-with-counter button-text="Increment"></button-with-counter>
+        <div class="w-1/5">
+            <multi-select  
+            v-model="selected" 
+            :options="options"
+             mode="tags"
+            :close-on-select="false"
+            :searchable="true"
+
+          
+            >
+                <template v-slot:multiplelabel="{ values }">
+                    <!-- <span v-for="item in values" class="multiselect-tag">
+                      {% item.label %} 
+                    </span> -->
+                    <span>test</span>
+                  </template>
+            </multi-select>
+        </div>
+    </div>
+    </div>  
+</body>
+
+<script type="module" src="/dist/js/index/index-page-script.js"></script>
+<script src="/dist/js/app.js"></script>
+</html>
+
+{{end}}
