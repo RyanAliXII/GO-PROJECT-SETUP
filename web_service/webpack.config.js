@@ -1,7 +1,7 @@
 const Webpack = require('webpack')
 const path = require('path')
 const fsw = require("@nodelib/fs.walk")
-var CopyWebpackPlugin = require('copy-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { VueLoaderPlugin } = require('vue-loader')
 
 const getEntries = (filesPath) => {

@@ -14,6 +14,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@formkit/vue": "^1.0.0-beta.11",
     "@vueform/multiselect": "^2.5.6",
     "glob": "^8.0.3",
     "i": "^0.3.7",
@@ -26,6 +27,7 @@
   "devDependencies": {
     "@nodelib/fs.walk": "^1.2.8",
     "autoprefixer": "^10.4.8",
+    "compression-webpack-plugin": "^10.0.0",
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.7.1",
     "cssnano": "^5.1.13",

@@ -1,0 +1,57 @@
+{{define "test.html"}}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/dist/css/tailwind.css">
+    <title>Test</title>
+</head>
+<body>
+    <div id="root" class="w-100 h-screen">
+            <form-kit type="form" @submit="submitForm">
+                <form-kit
+                  type="text"
+                  name="name"
+                  label="Your name"
+                  placeholder="Jane Doe"
+                  help="What do people call you?"
+                  validation="required"
+                ></form-kit>
+                <form-kit
+                  type="text"
+                  name="email"
+                  label="Your email"
+                  placeholder="jane@example.com"
+                  help="What email should we use?"
+                  validation="required|email"
+                /> </form-kit>
+                  <form-kit
+                    type="password"
+                    name="password"
+                    label="Password"
+                    validation="required|length:6|matches:/[^a-zA-Z]/"
+                    :validation-messages="{
+                      matches: 'Please include at least one symbol',
+                    }"
+                    placeholder="Your password"
+                    help="Choose a password"
+                  ></form-kit>
+                  <form-kit
+                    type="password"
+                    name="password_confirm"
+                    label="Confirm password"
+                    placeholder="Confirm password"
+                    validation="required|confirm"
+                    help="Confirm your password"
+                  ></form-kit>
+            </form-kit>
+    </div>
+</body>
+<script  src="/dist/js/test-page/test-page-script.js"></script>
+</html>
+
+
+{{end}}
