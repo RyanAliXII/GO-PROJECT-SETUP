@@ -19,12 +19,14 @@ import (
 
 func main() {
 	r := gin.Default()
+	r.Delims("{%", "%}")
 	godotenv.Load(".env")
 	r.Use(gzip.Gzip(gzip.DefaultCompression, gzip.WithExcludedExtensions([]string{".pdf", ".mp4"})))
 	var connection *sqlx.DB = InitDBConnection()
 	db.InitDb(connection)
 	var repositories repository.Repositories = repository.NewRepositories(connection)
 	r.LoadHTMLFiles(loadtmpl.LoadHTMLFiles("./src/templates")...)
+	// r.LoadHTMLGlob("./src/templates/**/*")
 	r.Static("/dist", "./dist")
 	routes.RegisterWeb(&repositories, r)
 	r.Run()
