@@ -23,7 +23,8 @@ module.exports = {
   resolve: {
     extensions: ['.vue', '.js','.css'],
     alias: {
-      '@components': path.resolve(__dirname, "src/templates/vue-components"),
+      '@components': path.resolve(__dirname, "src/vue/components"),
+      '@hooks': path.resolve(__dirname, "src/vue/hooks"),
     }
   },
   output: {

@@ -16,13 +16,15 @@
   "dependencies": {
     "@formkit/vue": "^1.0.0-beta.11",
     "@vueform/multiselect": "^2.5.6",
+    "axios": "^1.1.2",
     "glob": "^8.0.3",
     "i": "^0.3.7",
     "js-cookie": "^3.0.1",
     "npm": "^8.19.2",
     "uuid": "^8.3.2",
     "vue": "^3.2.37",
-    "vue-multiselect": "^3.0.0-alpha.2"
+    "vue-multiselect": "^3.0.0-alpha.2",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@nodelib/fs.walk": "^1.2.8",

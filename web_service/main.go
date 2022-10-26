@@ -10,15 +10,16 @@ import (
 	routes "ryanali12/web_service/routes/web"
 
 	"github.com/gin-contrib/gzip"
+	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
-
-	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )
 
 func main() {
-	r := gin.Default()
+	r := gin.New()
+	r.Use(gin.Recovery())
+
 	r.Delims("{%", "%}")
 	godotenv.Load(".env")
 	r.Use(gzip.Gzip(gzip.DefaultCompression, gzip.WithExcludedExtensions([]string{".pdf", ".mp4"})))

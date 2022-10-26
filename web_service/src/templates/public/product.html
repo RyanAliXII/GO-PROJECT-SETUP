@@ -1,0 +1,86 @@
+{% define "public/product.html" %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="/dist/css/tailwind.css" />
+  </head>
+  <body>
+    <main id="root">
+      <div class="w-1/2 mx-auto h-screen">
+        <div class="w-1/2 mx-auto mt-10 mb-5">
+          <form @submit.prevent="submit">
+            <div class="border-b mb-4">
+            <div class="mb-2">
+              <label for="name" class="text-gray-500">Name</label>
+              <input type="text" name="name" class="w-full border block p-2 focus:outline-gray-200"/>
+            </div>
+            <div class="mb-2">
+                <label for="name" class="text-gray-500">Description</label>
+                <textarea class="w-full border focus:outline-gray-200"></textarea>
+            </div>
+             </div>
+             <div class="mb-2">
+                <button type="button" @click="createVariant" class="bg-green-800 text-white p-2 rounded-sm">New variant</button>
+             </div>
+
+             <div>
+           <div class="w-full h-64 border flex items-center justify-center" v-if="variants.length === 0">
+                <div class="text-gray-400">Product has no variants</div>
+           </div>
+           <div class="border-b mb-5">
+            <template v-for="variant in variants">
+            <div class="mb-3">
+             <div class="mb-2">
+                <label for="name" class="text-gray-500">Variant name</label>
+                <input type="text" name="name" class="w-full border block p-2" v-model="variant.name"/>
+              </div>
+            <multi-select
+              mode="tags"
+              :create-option="true"
+              :searchable="true"
+              v-model="variant.items"
+            ></multi-select>
+             </div>
+            </template>
+
+             </div>
+         
+             <div class="mt-2">
+                <button type="submit"  class="bg-green-800 text-white py-2 px-5 rounded-sm">Submit</button>
+             </div>
+            </div>
+          </form>
+        </div>
+        <table class="items-center bg-transparent w-full border-collapse" >
+            <thead class="border">
+                <tr>
+                  <th class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                                Variant
+                              </th>
+                <th class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                                Stocks
+                              </th>
+                 <th class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                                SKU
+                              </th>
+                </tr>
+              </thead>
+            <tbody>
+                <tr v-for="result in variantsPermutation" class="border">
+                    <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left ">{{result}}</td>
+                    <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"><input type="text" class="border w-full p-2 focus:outline-gray-200"></td>
+                    <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"><input type="text" class="border w-full p-2 focus:outline-gray-200"></td>
+                </tr>
+            </tbody>
+         </table>
+      </div>
+    </main>
+    
+  </body>
+  <script src="/dist/js/product-page.js"></script>
+</html>
+{%end%}

@@ -1,6 +1,6 @@
 module ryanali12/web_service
 
-go 1.17
+go 1.19
 
 require (
 	github.com/doug-martin/goqu/v9 v9.18.0
@@ -12,6 +12,8 @@ require (
 )
 
 require (
+	github.com/anargu/gin-brotli v0.0.0-20220116052358-12bf532d5267 // indirect
+	github.com/andybalholm/brotli v1.0.4 // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
 	github.com/go-playground/locales v0.14.0 // indirect
 	github.com/go-playground/universal-translator v0.18.0 // indirect
